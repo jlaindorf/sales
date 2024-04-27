@@ -7,7 +7,8 @@ $controller = new ClientController();
 
 if ($method === 'POST') {
     $controller->createOne();
-    
+} else if ($method === 'GET' && !isset($_GET['id'])) {
+    $controller->listAll();
 } else if($method === 'GET' && $_GET['id']) {
     $controller->listOne();
 }

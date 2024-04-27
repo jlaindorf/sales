@@ -36,6 +36,16 @@ class ClientDAO
             return ['success' => false];
         }
     }
+    public function findMany()
+    {
+        $sql = "SELECT id,name from clients";
+
+        $statement = ($this->getConnection())->prepare($sql);
+        $statement->execute();
+
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 
     public function findOne($id)
     {

@@ -42,6 +42,11 @@ class ClientController
             responseError("Não foi possível cadastrar o cliente", 400);
         }
     }
+    public function listAll(){
+        $clientDAO = new ClientDAO();
+        $clients = $clientDAO->findMany();
+        response($clients, 200);
+    }
 
     public function listOne()
     {
