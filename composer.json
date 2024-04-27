@@ -1,0 +1,12 @@
+{
+    "name": "julio/sales",
+    "description": "api_sales",
+    "type": "composer-plugin",
+    "autoload": {
+        "psr-4": {
+            "Julio\\Sales\\": "src/"
+        }
+    },
+    "minimum-stability": "stable",
+    "require": {}
+}
