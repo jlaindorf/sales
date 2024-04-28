@@ -62,6 +62,11 @@ class UserDAO
     {
         $userInDatabase = $this->findOne($id);
 
+        if (!$userInDatabase) {
+            return ['success' => false, 'message' => 'Usuário não encontrado'];
+        }
+
+
         $sql = "UPDATE users 
                 SET name = :name_value,
                     email = :email_value,

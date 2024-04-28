@@ -61,6 +61,9 @@ class ClientDAO
     public function updateOne($id, $data)
     {
         $clientInDatabase = $this->findOne($id);
+        if (!$clientInDatabase) {
+            return ['success' => false, 'message' => 'cliente não encontrado'];
+        }
 
         $sql = "UPDATE clients 
                 SET name = :name_value,

@@ -55,6 +55,9 @@ class ProductDAO
     public function updateOne($id, $data)
     {
         $productInDatabase = $this->findOne($id);
+        if (!$productInDatabase) {
+            return ['success' => false, 'message' => 'Produto não encontrado'];
+        }
 
         $sql = "UPDATE products
                 SET name = :name_value,

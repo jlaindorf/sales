@@ -54,6 +54,9 @@ class PaymentDAO
     public function updateOne($id, $data)
     {
         $paymentInDatabase = $this->findOne($id);
+        if (!$paymentInDatabase) {
+            return ['success' => false, 'message' => 'forma de pagamento não encontrada'];
+        }
 
         $sql = "UPDATE payments
                 SET name = :name_value,
