@@ -2,47 +2,33 @@
 require_once '../utils/utils.php';
 require_once '../DAO/ClientDAO.php';
 require_once '../models/Client.php';
+require_once '../services/ClientService.php';
 
 class ClientController
 {
+
     public function createOne()
     {
-        $body = getBody();
+        $body = json_decode(json_encode(getBody()), true);
+        try {
+            $clientService = new ClientService();
+            $client = $clientService->validateClientData($body);
 
-        $name = sanitizeInput($body, 'name', FILTER_SANITIZE_SPECIAL_CHARS);
-        $email = sanitizeInput($body, 'email', FILTER_SANITIZE_EMAIL);
-        $cpf = sanitizeInput($body, 'cpf', FILTER_SANITIZE_SPECIAL_CHARS);
-        $city = sanitizeInput($body, 'city', FILTER_SANITIZE_SPECIAL_CHARS);
-        $neighborhood = sanitizeInput($body, 'neighborhood', FILTER_SANITIZE_SPECIAL_CHARS);
-        $number = sanitizeInput($body, 'number', FILTER_SANITIZE_SPECIAL_CHARS);
-        $street = sanitizeInput($body, 'street', FILTER_SANITIZE_SPECIAL_CHARS);
-        $state = sanitizeInput($body, 'state', FILTER_SANITIZE_SPECIAL_CHARS);
-        $cep = sanitizeInput($body, 'cep', FILTER_SANITIZE_SPECIAL_CHARS);
+            $clientDAO = new ClientDAO();
+            $result = $clientDAO->insert($client);
 
-        if (!$name) responseError("Nome do Cliente é obrigatório", 400);
-        
-
-        $client = new Client($name); 
-        $client->setEmail($email);
-        $client->setCpf($cpf);
-        $client->setCity($city);
-        $client->setNeighborhood($neighborhood);
-        $client->setNumber($number);
-        $client->setStreet($street);
-        $client->setState($state);
-        $client->setCep($cep);
-
-        $clientDAO = new ClientDAO();
-
-        $result = $clientDAO->insert($client);
-
-        if ($result['success'] === true) {
-            response(["message" => "Cliente cadastrado com sucesso"], 201);
-        } else {
-            responseError("Não foi possível cadastrar o cliente", 400);
+            if ($result['success'] === true) {
+                response(["message" => "Cliente cadastrado com sucesso"], 201);
+            } else {
+                responseError("Não foi possível cadastrar o cliente", 400);
+            }
+        } catch (InvalidArgumentException $e) {
+            responseError($e->getMessage(), 400);
         }
     }
-    public function listAll(){
+
+    public function listAll()
+    {
         $clientDAO = new ClientDAO();
         $clients = $clientDAO->findMany();
         response($clients, 200);

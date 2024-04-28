@@ -2,41 +2,29 @@
 require_once '../utils/utils.php';
 require_once '../DAO/UserDAO.php';
 require_once '../models/User.php';
-
+require_once '../services/UserService.php';
 class UserController
 {
     public function createOne()
     {
-        $body = getBody();
+        $body = json_decode(json_encode(getBody()), true);
+        try {
+            $userService = new UserService();
+            $user = $userService->validateUserBody($body);
 
-        $name = sanitizeInput($body, 'name', FILTER_SANITIZE_SPECIAL_CHARS);
-        $email = sanitizeInput($body, 'email', FILTER_SANITIZE_EMAIL);
-        $password = sanitizeInput($body, 'password', FILTER_SANITIZE_SPECIAL_CHARS);
+            $userDAO = new UserDAO();
+            $result = $userDAO->insert($user);
 
-        if (!$name || !$email || !$password) {
-            responseError("Nome, email e senha são obrigatórios", 400);
-        }
-
-        if (strlen($password) < 4 || strlen($password) > 8) {
-            responseError("A senha deve ter entre 4 e 8 caracteres", 400);
-        }
-
-        $user = new User($name);
-        $user->setEmail($email);
-        $user->setPassword($password);
-
-
-        $userDAO = new UserDAO();
-
-        $result = $userDAO->insert($user);
-
-
-        if ($result['success'] === true) {
-            response(["message" => "Usuário cadastrado com sucesso"], 201);
-        } else {
-            responseError("Nao foi possível cadastrar o usuario", 400);
+            if ($result['success'] === true) {
+                response(["message" => "Usuário cadastrado com sucesso"], 201);
+            } else {
+                responseError("Não foi possível cadastrar o usuário", 400);
+            }
+        } catch (InvalidArgumentException $e) {
+            responseError($e->getMessage(), 400);
         }
     }
+
     public function listAll()
     {
         $userDAO = new UserDAO();
@@ -58,6 +46,7 @@ class UserController
         response($user, 200);
     }
 
+
     public function updateOne()
     {
         $id = sanitizeInput($_GET, 'id', FILTER_VALIDATE_INT, false);
@@ -76,12 +65,14 @@ class UserController
         }
     }
 
+
+
     public function deleteOne()
     {
         $id = sanitizeInput($_GET, 'id', FILTER_VALIDATE_INT, false);
 
         if (!$id) responseError('ID inválido', 400);
-        
+
         $userDAO = new UserDAO();
 
         $userExists = $userDAO->findOne($id);

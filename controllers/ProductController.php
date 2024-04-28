@@ -2,34 +2,29 @@
 require_once '../utils/utils.php';
 require_once '../DAO/ProductDAO.php';
 require_once '../models/Product.php';
-
+require_once '../services/ProductService.php';
 class ProductController
 {
     public function createOne()
     {
-        $body = getBody();
+        $body = json_decode(json_encode(getBody()), true);
+        try {
+            $productService = new ProductService();
+            $product = $productService->validateproductBody($body);
 
-        $name = sanitizeInput($body, 'name', FILTER_SANITIZE_SPECIAL_CHARS);
-        $price = sanitizeInput($body, 'price', FILTER_VALIDATE_FLOAT);
-        $quant = sanitizeInput($body, 'quant', FILTER_VALIDATE_INT);
+            $productDAO = new productDAO();
+            $result = $productDAO->insert($product);
 
-
-
-        $product = new Product($name);
-        $product->setPrice($price);
-        $product->setQuant($quant);
-
-        $productDAO = new ProductDAO();
-
-        $result =  $productDAO->insert($product);
-
-
-        if ($result['success'] === true) {
-            response(["message" => "Produto cadastrado com sucesso"], 201);
-        } else {
-            responseError("Nao foi possível cadastrar o produto", 400);
+            if ($result['success'] === true) {
+                response(["message" => "Produto cadastrado com sucesso"], 201);
+            } else {
+                responseError("Não foi possível cadastrar o produto", 400);
+            }
+        } catch (InvalidArgumentException $e) {
+            responseError($e->getMessage(), 400);
         }
     }
+
     public function listAll()
     {
         $productDAO = new ProductDAO();
