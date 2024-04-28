@@ -1,5 +1,5 @@
 <?php
-require_once '../utils.php';
+require_once '../utils/utils.php';
 require_once '../models/UserDAO.php';
 require_once '../models/User.php';
 
