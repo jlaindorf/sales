@@ -13,7 +13,7 @@ class ProductController
         $price = sanitizeInput($body, 'price', FILTER_VALIDATE_FLOAT);
         $quant = sanitizeInput($body, 'quant', FILTER_VALIDATE_INT);
 
-       
+
 
         $product = new Product($name);
         $product->setPrice($price);
@@ -42,9 +42,7 @@ class ProductController
 
         if (!$id) responseError('ID inválido', 400);
 
-
-        $pdo = new PDO("pgsql:host=localhost;dbname=api_sales", "admin", "admin");
-        $productDAO = new ProductDAO($pdo);
+        $productDAO = new ProductDAO();
 
         $product = $productDAO->findOne($id);
 
@@ -60,9 +58,7 @@ class ProductController
 
         if (!$id) responseError('ID ausente', 400);
 
-
-        $pdo = new PDO("pgsql:host=localhost;dbname=api_sales", "admin", "admin");
-        $productDAO = new ProductDAO($pdo);
+        $productDAO = new ProductDAO();
 
         $result =  $productDAO->updateOne($id, $body);
 
@@ -79,9 +75,7 @@ class ProductController
 
         if (!$id) responseError('ID inválido', 400);
 
-
-        $pdo = new PDO("pgsql:host=localhost;dbname=api_sales", "admin", "admin");
-        $productDAO = new ProductDAO($pdo);
+        $productDAO = new ProductDAO();
 
         $productExists = $productDAO->findOne($id);
 

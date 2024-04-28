@@ -49,9 +49,7 @@ class UserController
 
         if (!$id) responseError('ID inválido', 400);
 
-
-        $pdo = new PDO("pgsql:host=localhost;dbname=api_sales", "admin", "admin");
-        $userDAO = new UserDAO($pdo);
+        $userDAO = new UserDAO();
 
         $user = $userDAO->findOne($id);
 
@@ -67,9 +65,7 @@ class UserController
 
         if (!$id) responseError('ID ausente', 400);
 
-
-        $pdo = new PDO("pgsql:host=localhost;dbname=api_sales", "admin", "admin");
-        $userDAO = new UserDAO($pdo);
+        $userDAO = new UserDAO();
 
         $result = $userDAO->updateOne($id, $body);
 
@@ -85,10 +81,8 @@ class UserController
         $id = sanitizeInput($_GET, 'id', FILTER_VALIDATE_INT, false);
 
         if (!$id) responseError('ID inválido', 400);
-
-
-        $pdo = new PDO("pgsql:host=localhost;dbname=api_sales", "admin", "admin");
-        $userDAO = new UserDAO($pdo);
+        
+        $userDAO = new UserDAO();
 
         $userExists = $userDAO->findOne($id);
 
