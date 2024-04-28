@@ -1,9 +1,11 @@
 <?php
 require_once __DIR__ . '/../config.php';
 require_once __DIR__ . '/../connection.php';
+require_once __DIR__ . '/../utils/DatabaseUtils.php';
+
 try {
 
-    $pdo = new PDO("pgsql:host=localhost;dbname=api_sales", "admin", "admin");
+    $pdo = DatabaseUtils::getConnection();
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 
