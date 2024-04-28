@@ -3,7 +3,7 @@ class Payment
 {
     private $id;
     private $name;
-    private $parcelas;
+    private $installments;
     private $created_at;
 
     public function __construct($name = null)
@@ -26,14 +26,14 @@ class Payment
         $this->name = $name;
     }
 
-    public function getParcelas()
+    public function getinstallments()
     {
-        return $this->parcelas;
+        return $this->installments;
     }
 
-    public function setParcelas($parcelas)
+    public function setinstallments($installments)
     {
-        $this->parcelas = $parcelas;
+        $this->installments = $installments;
     }
 
     public function getCreatedAt()
