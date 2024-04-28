@@ -54,7 +54,7 @@ class ProductDAO
 
     public function updateOne($id, $data)
     {
-        $clientInDatabase = $this->findOne($id);
+        $productInDatabase = $this->findOne($id);
 
         $sql = "UPDATE products
                 SET name = :name_value,
@@ -65,9 +65,9 @@ class ProductDAO
         $statement = $this->connection->prepare($sql);
 
         $statement->bindValue(":id_value", $id);
-        $statement->bindValue(":name_value", $data->name ?? $clientInDatabase['name']);
-        $statement->bindValue(":price_value", $data->email ?? $clientInDatabase['price']);
-        $statement->bindValue(":quant_value", $data->email ?? $clientInDatabase['quant']);
+        $statement->bindValue(":name_value", $data->name ?? $productInDatabase['name']);
+        $statement->bindValue(":price_value", $data->email ?? $productInDatabase['price']);
+        $statement->bindValue(":quant_value", $data->email ?? $productInDatabase['quant']);
 
         $statement->execute();
 
