@@ -26,12 +26,12 @@ class Payment
         $this->name = $name;
     }
 
-    public function getinstallments()
+    public function getInstallments()
     {
         return $this->installments;
     }
 
-    public function setinstallments($installments)
+    public function setInstallments($installments)
     {
         $this->installments = $installments;
     }
