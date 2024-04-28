@@ -1,12 +1,12 @@
 <?php
-
+require_once '../utils/dataBaseUtils.php';
 class ClientDAO
 {
     private $connection;
 
     public function __construct()
     {
-        $this->connection = new PDO("pgsql:host=localhost;dbname=api_sales", "admin", "admin");
+        $this->connection = DatabaseUtils::getConnection();
     }
 
     public function insert(Client $client)
@@ -15,7 +15,7 @@ class ClientDAO
             $sql = "INSERT INTO clients (name, email, cpf, city, neighborhood, number, street, state, cep)
                     VALUES (:name_value, :email_value, :cpf_value, :city_value, :neighborhood_value, 
                             :number_value, :street_value, :state_value, :cep_value)";
-            
+
             $statement = $this->connection->prepare($sql);
 
             $statement->bindValue(":name_value", $client->getName());

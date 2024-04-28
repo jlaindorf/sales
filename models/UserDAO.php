@@ -1,11 +1,12 @@
 <?php
+require_once '../utils/dataBaseUtils.php';
 class UserDAO
 {
     private $connection;
 
     public function __construct()
     {
-        $this->connection = new PDO("pgsql:host=localhost;dbname=api_sales", "admin", "admin");;
+        $this->connection = DatabaseUtils::getConnection();
     }
 
     public function insert(User $user)

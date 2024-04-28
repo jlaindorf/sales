@@ -1,4 +1,5 @@
 <?php
+require_once '../utils/dataBaseUtils.php';
 
 class ProductDAO
 {
@@ -6,7 +7,7 @@ class ProductDAO
 
     public function __construct()
     {
-        $this->connection = new PDO("pgsql:host=localhost;dbname=api_sales", "admin", "admin");
+        $this->connection = DatabaseUtils::getConnection();
     }
 
     public function insert(Product $product)
@@ -14,7 +15,7 @@ class ProductDAO
         try {
             $sql = "INSERT INTO products (name, price, quant)
                     VALUES (:name_value, :price_value, :quant_value)";
-            
+
             $statement = $this->connection->prepare($sql);
 
             $statement->bindValue(":name_value", $product->getName());
