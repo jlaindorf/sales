@@ -1,6 +1,6 @@
 <?php
 require_once '../utils/utils.php';
-require_once '../models/ClientDAO.php';
+require_once '../DAO/ClientDAO.php';
 require_once '../models/Client.php';
 
 class ClientController

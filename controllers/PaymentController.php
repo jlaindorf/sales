@@ -1,6 +1,6 @@
 <?php
 require_once '../utils/utils.php';
-require_once '../models/PaymentDAO.php';
+require_once '../DAO/PaymentDAO.php';
 require_once '../models/Payment.php';
 
 class PaymentController

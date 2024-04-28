@@ -1,6 +1,6 @@
 <?php
 require_once '../utils/utils.php';
-require_once '../models/ProductDAO.php';
+require_once '../DAO/ProductDAO.php';
 require_once '../models/Product.php';
 
 class ProductController
