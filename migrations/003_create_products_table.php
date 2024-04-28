@@ -21,7 +21,7 @@ try {
 
     $pdo->commit();
 
-    echo "Migration 002 - Tabela 'products' criada com sucesso!" . PHP_EOL;
+    echo "Migration 003 - Tabela 'products' criada com sucesso!" . PHP_EOL;
 } catch (PDOException $e) {
     $pdo->rollBack();
     die("Erro ao criar tabela 'products': " . $e->getMessage());

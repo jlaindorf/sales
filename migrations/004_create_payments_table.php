@@ -20,7 +20,7 @@ try {
 
     $pdo->commit();
 
-    echo "Migration 002 - Tabela 'payments' criada com sucesso!" . PHP_EOL;
+    echo "Migration 004- Tabela 'payments' criada com sucesso!" . PHP_EOL;
 } catch (PDOException $e) {
     $pdo->rollBack();
     die("Erro ao criar tabela 'payments': " . $e->getMessage());
