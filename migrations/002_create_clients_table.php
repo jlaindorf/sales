@@ -20,7 +20,7 @@ try {
         number VARCHAR(30),
         street VARCHAR(30),
         state VARCHAR(2),
-        cep VARCHAR(20) NOT NULL,
+        cep VARCHAR(20),
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
