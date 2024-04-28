@@ -53,9 +53,12 @@ class ProductDAO
     }
 
     public function updateOne($id, $data)
-    {
+{
+    try {
+
         $productInDatabase = $this->findOne($id);
         if (!$productInDatabase) {
+            $this->connection->rollBack();
             return ['success' => false, 'message' => 'Produto não encontrado'];
         }
 
@@ -69,14 +72,16 @@ class ProductDAO
 
         $statement->bindValue(":id_value", $id);
         $statement->bindValue(":name_value", $data->name ?? $productInDatabase['name']);
-        $statement->bindValue(":price_value", $data->email ?? $productInDatabase['price']);
-        $statement->bindValue(":quant_value", $data->email ?? $productInDatabase['quant']);
+        $statement->bindValue(":price_value", $data->price ?? $productInDatabase['price']);
+        $statement->bindValue(":quant_value", $data->quant ?? $productInDatabase['quant']);
 
         $statement->execute();
 
         return ['success' => true];
+    } catch (PDOException $e) {
+        throw $e;
     }
-
+}
     public function deleteOne($id)
     {
         try {
