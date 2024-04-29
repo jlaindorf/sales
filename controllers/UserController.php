@@ -5,15 +5,23 @@ require_once '../models/User.php';
 require_once '../services/UserService.php';
 class UserController
 {
+
+    private $userService;
+    private $userDAO;
+
+    public function __construct()
+    {
+        $this->userService = new UserService();
+        $this->userDAO = new UserDAO();
+    }
+
     public function createOne()
     {
         $body = json_decode(json_encode(getBody()), true);
         try {
-            $userService = new UserService();
-            $user = $userService->validateUserBody($body);
+            $user = $this->userService->validateUserBody($body);
 
-            $userDAO = new UserDAO();
-            $result = $userDAO->insert($user);
+            $result = $this->userDAO->insert($user);
 
             if ($result['success'] === true) {
                 response(["message" => "Usuário cadastrado com sucesso"], 201);
@@ -27,8 +35,7 @@ class UserController
 
     public function listAll()
     {
-        $userDAO = new UserDAO();
-        $users = $userDAO->findMany();
+        $users = $this->userDAO->findMany();
         response($users, 200);
     }
     public function listOne()
@@ -37,9 +44,8 @@ class UserController
 
         if (!$id) responseError('ID inválido', 400);
 
-        $userDAO = new UserDAO();
 
-        $user = $userDAO->findOne($id);
+        $user = $this->userDAO->findOne($id);
 
         if (!$user) responseError('Usuário não encontrado', 404);
 
@@ -54,9 +60,8 @@ class UserController
 
         if (!$id) responseError('ID ausente', 400);
 
-        $userDAO = new UserDAO();
 
-        $result = $userDAO->updateOne($id, $body);
+        $result = $this->userDAO->updateOne($id, $body);
 
         if ($result['success'] === true) {
             response(["message" => "Usuário atualizado com sucesso"], 200);
@@ -73,13 +78,12 @@ class UserController
 
         if (!$id) responseError('ID inválido', 400);
 
-        $userDAO = new UserDAO();
 
-        $userExists = $userDAO->findOne($id);
+        $userExists = $this->userDAO->findOne($id);
 
         if (!$userExists) responseError('Usuário não encontrado', 404);
 
-        $result = $userDAO->deleteOne($id);
+        $result = $this->userDAO->deleteOne($id);
 
         if ($result['success'] === true) {
             response([], 204);

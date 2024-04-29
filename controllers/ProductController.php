@@ -5,15 +5,23 @@ require_once '../models/Product.php';
 require_once '../services/ProductService.php';
 class ProductController
 {
+    private $productDAO;
+    private $productService;
+
+    public function __construct()
+    {
+        $this->productService = new ProductService();
+        $this->productDAO = new ProductDAO();
+    }
+
     public function createOne()
     {
         $body = json_decode(json_encode(getBody()), true);
         try {
-            $productService = new ProductService();
-            $product = $productService->validateproductBody($body);
 
-            $productDAO = new productDAO();
-            $result = $productDAO->insert($product);
+            $product = $this->productService->validateproductBody($body);
+
+            $result = $this->productDAO->insert($product);
 
             if ($result['success'] === true) {
                 response(["message" => "Produto cadastrado com sucesso"], 201);
@@ -27,8 +35,7 @@ class ProductController
 
     public function listAll()
     {
-        $productDAO = new ProductDAO();
-        $products = $productDAO->findMany();
+        $products = $$this->productDAO->findMany();
         response($products, 200);
     }
     public function listOne()
@@ -37,9 +44,8 @@ class ProductController
 
         if (!$id) responseError('ID inválido', 400);
 
-        $productDAO = new ProductDAO();
 
-        $product = $productDAO->findOne($id);
+        $product = $$this->productDAO->findOne($id);
 
         if (!$product) responseError('Produto não cadastrado', 404);
 
@@ -53,9 +59,8 @@ class ProductController
 
         if (!$id) responseError('ID ausente', 400);
 
-        $productDAO = new ProductDAO();
 
-        $result =  $productDAO->updateOne($id, $body);
+        $result =  $$this->productDAO->updateOne($id, $body);
 
         if ($result['success'] === true) {
             response(["message" => "Produto atualizado com sucesso"], 200);
@@ -70,13 +75,12 @@ class ProductController
 
         if (!$id) responseError('ID inválido', 400);
 
-        $productDAO = new ProductDAO();
 
-        $productExists = $productDAO->findOne($id);
+        $productExists = $$this->productDAO->findOne($id);
 
         if (!$productExists) responseError('Produto não cadastrado', 404);
 
-        $result = $productDAO->deleteOne($id);
+        $result = $$this->productDAO->deleteOne($id);
 
         if ($result['success'] === true) {
             response([], 204);

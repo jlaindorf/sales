@@ -5,17 +5,24 @@ require_once '../models/Payment.php';
 require_once '../services/PaymentService.php';
 class PaymentController
 {
+
+    private $paymentService;
+    private $paymentDAO;
+
+    public function __construct()
+    {
+        $this->paymentService = new PaymentService();
+        $this->paymentDAO = new PaymentDAO();
+    }
+
     public function createOne()
     {
         $body = json_decode(json_encode(getBody()), true);
         try {
-            $paymentService = new PaymentService();
-            $payment = $paymentService->validatePaymentBody($body);
-    
-            $paymentDAO = new PaymentDAO();
-            
-            $result = $paymentDAO->insert($payment);
-    
+            $payment = $this->paymentService->validatePaymentBody($body);
+
+            $result = $this->paymentDAO->insert($payment);
+
             if ($result['success'] === true) {
                 response(["message" => "Pagamento cadastrado com sucesso"], 201);
             } else {
@@ -27,8 +34,7 @@ class PaymentController
     }
     public function listAll()
     {
-        $paymentDAO = new PaymentDAO();
-        $payments = $paymentDAO->findMany();
+        $payments = $this->paymentDAO->findMany();
         response($payments, 200);
     }
     public function listOne()
@@ -37,9 +43,7 @@ class PaymentController
 
         if (!$id) responseError('ID inválido', 400);
 
-        $paymentDAO = new PaymentDAO();
-
-        $payment = $paymentDAO->findOne($id);
+        $payment = $this->paymentDAO->findOne($id);
 
         if (!$payment) responseError('Forma de pagamento não cadastrada', 404);
 
@@ -53,9 +57,7 @@ class PaymentController
 
         if (!$id) responseError('ID ausente', 400);
 
-        $paymentDAO = new PaymentDAO();
-
-        $result =  $paymentDAO->updateOne($id, $body);
+        $result =  $this->paymentDAO->updateOne($id, $body);
 
         if ($result['success'] === true) {
             response(["message" => "Forma de pagamento atualizada com sucesso"], 200);
@@ -70,13 +72,11 @@ class PaymentController
 
         if (!$id) responseError('ID inválido', 400);
 
-        $paymentDAO = new PaymentDAO();
-
-        $paymentExists = $paymentDAO->findOne($id);
+        $paymentExists = $this->paymentDAO->findOne($id);
 
         if (!$paymentExists) responseError('Forma de pagamento não cadastrada', 404);
 
-        $result = $paymentDAO->deleteOne($id);
+        $result = $this->paymentDAO->deleteOne($id);
 
         if ($result['success'] === true) {
             response([], 204);

@@ -6,16 +6,25 @@ require_once '../services/ClientService.php';
 
 class ClientController
 {
+    private $clientDAO;
+    private $clientService;
+
+    public function __construct()
+    {
+        $this->clientService = new ClientService();
+        $this->clientDAO = new ClientDAO();
+    }
+
+
 
     public function createOne()
     {
         $body = json_decode(json_encode(getBody()), true);
         try {
-            $clientService = new ClientService();
-            $client = $clientService->validateClientData($body);
+            
+            $client = $this->clientService->validateClientData($body);
 
-            $clientDAO = new ClientDAO();
-            $result = $clientDAO->insert($client);
+            $result = $this->clientDAO->insert($client);
 
             if ($result['success'] === true) {
                 response(["message" => "Cliente cadastrado com sucesso"], 201);
@@ -29,8 +38,7 @@ class ClientController
 
     public function listAll()
     {
-        $clientDAO = new ClientDAO();
-        $clients = $clientDAO->findMany();
+        $clients = $this->clientDAO->findMany();
         response($clients, 200);
     }
 
@@ -40,8 +48,7 @@ class ClientController
 
         if (!$id) responseError('ID inválido', 400);
 
-        $clientDAO = new ClientDAO();
-        $client = $clientDAO->findOne($id);
+        $client = $this->clientDAO->findOne($id);
 
         if (!$client) responseError('Cliente não encontrado', 404);
 
@@ -55,9 +62,7 @@ class ClientController
 
         if (!$id) responseError('ID ausente', 400);
 
-        $clientDAO = new ClientDAO();
-
-        $result = $clientDAO->updateOne($id, $body);
+        $result =$this->clientDAO->updateOne($id, $body);
 
         if ($result['success'] === true) {
             response(["message" => "Cliente atualizado com sucesso"], 200);
@@ -72,13 +77,11 @@ class ClientController
 
         if (!$id) responseError('ID inválido', 400);
 
-        $clientDAO = new ClientDAO();
-
-        $clientExists = $clientDAO->findOne($id);
+        $clientExists = $this->clientDAO->findOne($id);
 
         if (!$clientExists) responseError('Cliente não encontrado', 404);
 
-        $result = $clientDAO->deleteOne($id);
+        $result = $this->clientDAO->deleteOne($id);
 
         if ($result['success'] === true) {
             response([], 204);
