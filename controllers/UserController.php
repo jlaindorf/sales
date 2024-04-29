@@ -91,4 +91,26 @@ class UserController
             responseError('Não foi possível excluir o usuário', 400);
         }
     }
+
+    
+    public function login()
+    {
+        $body = json_decode(json_encode(getBody()), true);
+        
+        if (!isset($body['email']) || !isset($body['password'])) {
+            responseError('Credenciais ausentes', 400);
+        }
+
+        $email = $body['email'];
+        $password = $body['password'];
+
+        $user = $this->userDAO->login($email, $password);
+
+        if ($user) {
+           
+            response(['message' => 'Login bem-sucedido', 'user_id' => $user['id']], 200);
+        } else {
+            responseError('Credenciais inválidas', 401);
+        }
+    }
 }

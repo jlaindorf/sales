@@ -101,6 +101,16 @@ class UserDAO
         }
     }
 
+    public function login($email, $password)
+{
+    $sql = "SELECT * FROM users WHERE email = :email AND password = :password";
+    $statement = $this->connection->prepare($sql);
+    $statement->bindValue(":email", $email);
+    $statement->bindValue(":password", $password);
+    $statement->execute();
+
+    return $statement->fetch(PDO::FETCH_ASSOC);
+}
     public function getConnection()
     {
         return $this->connection;
