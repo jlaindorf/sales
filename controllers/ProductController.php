@@ -35,7 +35,7 @@ class ProductController
 
     public function listAll()
     {
-        $products = $$this->productDAO->findMany();
+        $products = $this->productDAO->findMany();
         response($products, 200);
     }
     public function listOne()
@@ -60,7 +60,7 @@ class ProductController
         if (!$id) responseError('ID ausente', 400);
 
 
-        $result =  $$this->productDAO->updateOne($id, $body);
+        $result = $this->productDAO->updateOne($id, $body);
 
         if ($result['success'] === true) {
             response(["message" => "Produto atualizado com sucesso"], 200);
