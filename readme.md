@@ -2,19 +2,19 @@ Bem-vindos à API sales .
 
 O que preciso para rodar minha api ? php , e acesso ao banco de dados postGree. 
 
-### Rodar o banco no docker : 
+# Rodar o banco no docker : 
 
 ##
 docker run --name sales -e POSTGRESQL_USERNAME=admin -e POSTGRESQL_PASSWORD=admin -e POSTGRESQL_DATABASE=api_sales -p 5432:5432 bitnami/postgresql
 
-# após clonar o projeto: 
+## após clonar o projeto: 
 no terminal do vsCode , rodar os seguintes comandos :
-php migrate.php - criar as tabelas
-php seeders/productSeeder.php - criação dos primeiros produtos.
-php seeders/userSeeder.php  - criação do usuário inicial .
-php seeders/PaymentSeeder.php - criação das formas de pagamento iniciais.
+### php migrate.php - criar as tabelas
+### php seeders/productSeeder.php - criação dos primeiros produtos.
+### php seeders/userSeeder.php  - criação do usuário inicial .
+### php seeders/PaymentSeeder.php - criação das formas de pagamento iniciais.
 
-### End points da aplicação -
+# End points da aplicação -
 
 ## users :
 http://localhost/Sales/routes/users.php
@@ -31,7 +31,7 @@ http://localhost/Sales/routes/payments.php
 ## sales:
 http://localhost/Sales/routes/sales.php
 
-# Pontos de melhoria 
+## Pontos de melhoria 
 - Criação de authenticação 
 - Envio de email para confirmação e alteração de senha
 - Criação de middlewares
