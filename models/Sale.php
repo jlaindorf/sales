@@ -4,24 +4,15 @@ class Sale
     private $id;
     private $client_id;
     private $product_id;
-    private $amount;
+    private $quant;
     private $payment_id;
     private $total_price;
-
-    public function __construct($client_id, $product_id, $amount, $payment_id, $total_price)
-    {
-        $this->client_id = $client_id;
-        $this->product_id = $product_id;
-        $this->amount = $amount;
-        $this->payment_id = $payment_id;
-        $this->total_price = $total_price;
-    }
 
     public function getId()
     {
         return $this->id;
     }
-
+    
     public function setId($id)
     {
         $this->id = $id;
@@ -47,14 +38,14 @@ class Sale
         $this->product_id = $product_id;
     }
 
-    public function getAmount()
+    public function getQuant()
     {
-        return $this->amount;
+        return $this->quant;
     }
 
-    public function setAmount($amount)
+    public function setQuant($quant)
     {
-        $this->amount = $amount;
+        $this->quant = $quant;
     }
 
     public function getPaymentId()
