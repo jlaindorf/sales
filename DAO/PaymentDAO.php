@@ -31,7 +31,7 @@ class PaymentDAO
     }
     public function findMany()
     {
-        $sql = "SELECT id,name from payments";
+        $sql = "SELECT id,name,installments from payments ORDER BY name";
 
         $statement = ($this->getConnection())->prepare($sql);
         $statement->execute();

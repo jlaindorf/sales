@@ -12,7 +12,7 @@ class UserDAO
     public function insert(User $user)
     {
         try {
-            $sql = "INSERT INTO users (name, email, password)
+            $sql = "INSERT INTO users (name, email, password ORDER BY name)
                 VALUES (:name_value, :email_value, :password_value)";
 
             $statement = $this->connection->prepare($sql);
@@ -40,7 +40,7 @@ class UserDAO
     }
     public function findMany()
     {
-        $sql = "SELECT id,name from users";
+        $sql = "SELECT id,name, email from users";
 
         $statement = ($this->getConnection())->prepare($sql);
         $statement->execute();

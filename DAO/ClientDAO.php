@@ -40,7 +40,7 @@ class ClientDAO
     }
     public function findMany()
     {
-        $sql = "SELECT id,name from clients";
+        $sql = "SELECT id,name,cpf,email, contact, cep, state, city, street, number from clients ORDER BY NAME";
 
         $statement = ($this->getConnection())->prepare($sql);
         $statement->execute();
@@ -76,7 +76,7 @@ class ClientDAO
                     number = :number_value,
                     street = :street_value,
                     state = :state_value,
-                    cep = :cep_value
+                    cep = :cep_value,
                     contact = :contact_value
                 WHERE id = :id_value";
 

@@ -32,7 +32,7 @@ class ProductDAO
     }
     public function findMany()
     {
-        $sql = "SELECT id,name from products";
+        $sql = "SELECT id,name, price, quant from products ORDER BY name";
 
         $statement = ($this->getConnection())->prepare($sql);
         $statement->execute();
