@@ -40,7 +40,7 @@ class ClientDAO
     }
     public function findMany()
     {
-        $sql = "SELECT id,name,cpf,email, contact, cep, state, city, street, number from clients ORDER BY NAME";
+        $sql = "SELECT id,name,cpf,email, contact, cep,city,state,  street, neighborhood, number from clients ORDER BY NAME";
 
         $statement = ($this->getConnection())->prepare($sql);
         $statement->execute();
