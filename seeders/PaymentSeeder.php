@@ -9,8 +9,8 @@ try {
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     $paymentData = [
-        ['name' => 'Dinheiro'],
-        ['name' => 'Pix'],
+        ['name' => 'Dinheiro', 'installments' => 1],
+        ['name' => 'Pix','installments' => 1],
         ['name' => 'Credito a vista', 'installments' => 1],
         ['name' => 'Credito parcelado', 'installments' => 2],
         ['name' => 'Credito parcelado', 'installments' => 3],
