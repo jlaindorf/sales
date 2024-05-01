@@ -40,3 +40,4 @@ http://localhost/Sales/routes/sales.php
 - Docker compose 
 - Testes Unitários.
 
+.
