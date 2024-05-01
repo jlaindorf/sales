@@ -26,6 +26,7 @@ class ClientService
         $client->setStreet($data['street'] ?? null);
         $client->setState($data['state'] ?? null);
         $client->setCep($data['cep'] ?? null);
+        $client->setContact($data['contact'] ?? null);
 
         return $client;
     }

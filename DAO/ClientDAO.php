@@ -12,9 +12,9 @@ class ClientDAO
     public function insert(Client $client)
     {
         try {
-            $sql = "INSERT INTO clients (name, email, cpf, city, neighborhood, number, street, state, cep)
+            $sql = "INSERT INTO clients (name, email, cpf, city, neighborhood, number, street, state, cep, contact)
                     VALUES (:name_value, :email_value, :cpf_value, :city_value, :neighborhood_value, 
-                            :number_value, :street_value, :state_value, :cep_value)";
+                            :number_value, :street_value, :state_value, :cep_value, :contact_value)";
 
             $statement = $this->connection->prepare($sql);
 
@@ -27,6 +27,8 @@ class ClientDAO
             $statement->bindValue(":street_value", $client->getStreet());
             $statement->bindValue(":state_value", $client->getState());
             $statement->bindValue(":cep_value", $client->getCep());
+            $statement->bindValue(":contact_value", $client->getContact());
+
 
             $statement->execute();
 
@@ -75,6 +77,7 @@ class ClientDAO
                     street = :street_value,
                     state = :state_value,
                     cep = :cep_value
+                    contact = :contact_value
                 WHERE id = :id_value";
 
         $statement = $this->connection->prepare($sql);
@@ -89,6 +92,7 @@ class ClientDAO
         $statement->bindValue(":street_value", $data->street ?? $clientInDatabase['street']);
         $statement->bindValue(":state_value", $data->state ?? $clientInDatabase['state']);
         $statement->bindValue(":cep_value", $data->cep ?? $clientInDatabase['cep']);
+        $statement->bindValue(":contact_value", $data->contact ?? $clientInDatabase['contact']);
 
         $statement->execute();
 

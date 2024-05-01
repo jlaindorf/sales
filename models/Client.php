@@ -12,6 +12,7 @@ class Client
     private $street;
     private $state;
     private $cep;
+    private $contact;
     private $created_at;
 
     public function __construct($name = null)
@@ -110,6 +111,15 @@ class Client
     public function setCep($cep)
     {
         $this->cep = $cep;
+    }
+    public function getContact()
+    {
+        return $this->contact;
+    }
+
+    public function setContact($contact)
+    {
+        $this->contact = $contact;
     }
 
     public function getCreatedAt()
